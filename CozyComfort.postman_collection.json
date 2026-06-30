@@ -1,0 +1,1038 @@
+{
+	"info": {
+		"_postman_id": "fac584d0-3cbd-4762-8cdb-8aad4254caed",
+		"name": "Cozy Comfort API",
+		"description": "Comprehensive Postman API Collection to test the Cozy Comfort .NET Web API. Features automated authorization token handling and assertions.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"newuser@cozycomfort.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"role\": \"Seller\",\n  \"sellerName\": \"Johns Cozy Shop\",\n  \"sellerShippingAddress\": \"123 Snug Lane, Soft Town\",\n  \"assignedDistributorId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Manufacturer)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Manufacturer login successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.data.token).to.not.be.undefined;",
+									"    pm.globals.set(\"jwt_token\", jsonData.data.token);",
+									"    pm.globals.set(\"manufacturer_id\", jsonData.data.userId);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@cozycomfort.com\",\n  \"password\": \"password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Distributor)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Distributor login successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.data.token).to.not.be.undefined;",
+									"    pm.globals.set(\"jwt_token\", jsonData.data.token);",
+									"    pm.globals.set(\"distributor_id\", jsonData.data.distributorId);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"contact@warmroutes.com\",\n  \"password\": \"password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Seller)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Seller login successful\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.data.token).to.not.be.undefined;",
+									"    pm.globals.set(\"jwt_token\", jsonData.data.token);",
+									"    pm.globals.set(\"seller_id\", jsonData.data.sellerId);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"owner@nestandhome.com\",\n  \"password\": \"password123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blankets",
+			"item": [
+				{
+					"name": "Get Blankets",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Returns list of blankets\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.data.data).to.be.an('array');",
+									"    if (jsonData.data.data.length > 0) {",
+									"        pm.globals.set(\"blanket_id\", jsonData.data.data[0].blanketId);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/blankets?pageNumber=1&pageSize=10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blankets"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Blanket",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"pm.test(\"Blanket created successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.data.blanketId).to.not.be.undefined;",
+									"    pm.globals.set(\"blanket_id\", jsonData.data.blanketId);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Chiffon Fleece Wrap\",\n  \"description\": \"Super light and breathable chiffon fleece wrap blanket, designed for casual lounge use.\",\n  \"material\": \"Fleece\",\n  \"size\": \"Twin\",\n  \"basePrice\": 29.99,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1580301762395-21ce84d00bc6\",\n  \"initialStock\": 120,\n  \"dailyProductionCapacity\": 15,\n  \"leadTimeDays\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/blankets",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blankets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Blanket by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Returns correct blanket details\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.expect(jsonData.data.blanketId).to.eql(parseInt(pm.globals.get(\"blanket_id\")));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/blankets/{{blanket_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blankets",
+								"{{blanket_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Blanket",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Chiffon Fleece Wrap (Updated)\",\n  \"description\": \"Super light and breathable chiffon fleece wrap blanket, designed for casual lounge use.\",\n  \"material\": \"Fleece\",\n  \"size\": \"Twin\",\n  \"basePrice\": 34.99,\n  \"imageUrl\": \"https://images.unsplash.com/photo-1580301762395-21ce84d00bc6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/blankets/{{blanket_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blankets",
+								"{{blanket_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Manufacturer Stock",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"stockQuantity\": 150,\n  \"dailyProductionCapacity\": 20,\n  \"leadTimeDays\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/blankets/{{blanket_id}}/manufacturer-stock",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blankets",
+								"{{blanket_id}}",
+								"manufacturer-stock"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Materials List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/blankets/materials",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blankets",
+								"materials"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sizes List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/blankets/sizes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blankets",
+								"sizes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Blanket",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 or 404\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/blankets/{{blanket_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blankets",
+								"{{blanket_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Distributors",
+			"item": [
+				{
+					"name": "Get Distributors",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/distributors",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Distributor Stock",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/distributors/{{distributor_id}}/stock",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributors",
+								"{{distributor_id}}",
+								"stock"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Distributor Stock",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"blanketId\": {{blanket_id}},\n  \"stockQuantity\": 40,\n  \"costPrice\": 45.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/distributors/{{distributor_id}}/stock",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributors",
+								"{{distributor_id}}",
+								"stock"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create Guest Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 or 201\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									"pm.test(\"Order placed successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.globals.set(\"order_id\", jsonData.data.orderId);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customerName\": \"Alice Smith\",\n  \"customerEmail\": \"alice@example.com\",\n  \"deliveryAddress\": \"789 Cozy Blvd, Warm Town\",\n  \"notes\": \"Leave at the front door.\",\n  \"items\": [\n    {\n      \"blanketId\": {{blanket_id}},\n      \"quantity\": 2,\n      \"unitPrice\": 85.00\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders/guest",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"guest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Seller Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 or 201\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									"pm.test(\"Seller order placed successfully\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.success).to.be.true;",
+									"    pm.globals.set(\"order_id\", jsonData.data.orderId);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sellerId\": {{seller_id}},\n  \"customerName\": \"Bob Jones\",\n  \"customerEmail\": \"bob@sellerclient.com\",\n  \"deliveryAddress\": \"456 Comfort Road, Soft City\",\n  \"notes\": \"Seller fulfillment.\",\n  \"items\": [\n    {\n      \"blanketId\": {{blanket_id}},\n      \"quantity\": 1,\n      \"unitPrice\": 95.00\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Orders (Dashboard)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/dashboard",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"dashboard"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Seller Orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/seller/{{seller_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"seller",
+								"{{seller_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Distributor Orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/distributor/{{distributor_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"distributor",
+								"{{distributor_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Order Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"Processing\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders/{{order_id}}/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"{{order_id}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Production Orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"List of production orders check\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.success && jsonData.data.length > 0) {",
+									"        pm.globals.set(\"production_order_id\", jsonData.data[0].productionOrderId);",
+									"    }",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/orders/production",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"production"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Production Order Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 or 400\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 400]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"Completed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/orders/production/{{production_order_id}}/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"production",
+								"{{production_order_id}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stock Check",
+			"item": [
+				{
+					"name": "Query Stock",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"blanketId\": {{blanket_id}},\n  \"quantity\": 5,\n  \"sellerId\": {{seller_id}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/stockcheck/query",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stockcheck",
+								"query"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stock Query History",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/stockcheck/history?sellerId={{seller_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stockcheck",
+								"history"
+							],
+							"query": [
+								{
+									"key": "sellerId",
+									"value": "{{seller_id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5035/api",
+			"type": "string"
+		},
+		{
+			"key": "blanket_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "distributor_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "seller_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "order_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "production_order_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}

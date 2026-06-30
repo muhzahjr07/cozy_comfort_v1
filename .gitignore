@@ -1,0 +1,48 @@
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono auto-generated files
+mono_crash.*
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Re]leases/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+bsearch/
+giga/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio 2015/2017/2019/2022 cache directory
+.vs/
+# File integrity report
+*.VisualState.xml
+
+# Rider / IntelliJ Project Settings
+.idea/
+
+# Node.js
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# SQLite Database files
+CozyComfort.API/CozyComfort.db
+CozyComfort.API/CozyComfort.db-shm
+CozyComfort.API/CozyComfort.db-wal
+
+# OS files
+.DS_Store
+Thumbs.db
